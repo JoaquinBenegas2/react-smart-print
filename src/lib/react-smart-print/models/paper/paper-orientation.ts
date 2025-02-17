@@ -1,0 +1,1 @@
+export type PaperOrientation = "portrait" | "landscape";
