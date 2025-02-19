@@ -47,5 +47,10 @@
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5",
     "vite-plugin-dts": "^4.5.0"
-  }
+  },
+  "keywords": [
+    "react",
+    "pdf",
+    "library"
+  ]
 }
