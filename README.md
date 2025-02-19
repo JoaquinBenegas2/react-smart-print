@@ -1,22 +1,22 @@
 # React Smart Print 🖨️
 
-**React Smart Print** es una librería moderna y minimalista que te permite generar reportes PDF de manera sencilla y personalizable utilizando componentes de React. Aprovecha el poder de React para construir documentos complejos, con opciones avanzadas para configurar encabezados, pies de página, carátulas y mucho más.
+**React Smart Print** is a modern and minimalist library that allows you to generate PDF reports easily and customize them using React components. Leverage the power of React to build complex documents with advanced options for configuring headers, footers, cover pages, and much more.
 
 ---
 
-## ✨ Características
+## ✨ Features
 
-- ⚛️ **Integración con React:** Usa tus componentes para construir el contenido del PDF.
-- 🖌️ **Personalización Total:** Configura tamaños de papel, márgenes, orientación y espaciado entre párrafos.
-- 📝 **Encabezados, Pies de Página y Carátulas Personalizadas:** Define funciones que retornen componentes JSX para cada sección.
-- 🛠️ **Hooks y Componentes Listos para Usar:** Utiliza el hook `useSmartPrint` para gestionar el ciclo de vida del reporte y componentes como `Typography`, `Paragraph`, `Table`, `List`, `PageBreak`, `BlankPage` y `Divider` para facilitar la composición.
-- 📈 **Rendimiento Óptimo:** Generación e impresión de PDF de forma rápida y eficiente.
+- ⚛️ **React Integration:** Use your components to build the PDF content.
+- 🖌️ **Full Customization:** Configure paper sizes, margins, orientation, and paragraph spacing.
+- 📝 **Custom Headers, Footers, and Cover Pages:** Define functions that return JSX components for each section.
+- 🛠️ **Ready-to-Use Hooks and Components:** Use the `useSmartPrint` hook to manage the report lifecycle and components like `Typography`, `Paragraph`, `Table`, `List`, `PageBreak`, `BlankPage`, and `Divider` to facilitate composition.
+- 📈 **Optimal Performance:** Fast and efficient PDF generation and printing.
 
 ---
 
-## 📦 Instalación
+## 📦 Installation
 
-Instala **React Smart Print** utilizando el gestor de paquetes de tu preferencia:
+Install **React Smart Print** using your preferred package manager:
 
 ```sh
 npm install react-smart-print
@@ -32,25 +32,25 @@ yarn add react-smart-print
 
 ---
 
-## 🚀 Uso Básico
+## 🚀 Basic Usage
 
-A continuación, un ejemplo básico que muestra cómo generar y renderizar un PDF:
+Below is a basic example showing how to generate and render a PDF:
 
 ```tsx
 import React from "react";
 import { PageRender, Typography, useSmartPrint } from "react-smart-print";
 
-const ReporteVentas = () => {
-  // Inicializa el hook con un identificador para el reporte
-  const { config, render, print, unmount, isLoading } = useSmartPrint("reporte-ventas");
+const SalesReport = () => {
+  // Initialize the hook with an identifier for the report
+  const { config, render, print, unmount, isLoading } = useSmartPrint("sales-report");
 
   return (
     <div>
-      <button onClick={render}>Generar PDF</button>
-      <button onClick={print}>Imprimir PDF</button>
-      <button onClick={unmount}>Cerrar PDF</button>
+      <button onClick={render}>Generate PDF</button>
+      <button onClick={print}>Print PDF</button>
+      <button onClick={unmount}>Close PDF</button>
 
-      {isLoading && <p>Cargando...</p>}
+      {isLoading && <p>Loading...</p>}
 
       <PageRender
         {...config}
@@ -61,61 +61,61 @@ const ReporteVentas = () => {
         }}
         header={(page, total) => (
           <header>
-            Encabezado - Página {page} de {total}
+            Header - Page {page} of {total}
           </header>
         )}
         footer={(page, total) => (
           <footer>
-            Pie de página - Página {page} de {total}
+            Footer - Page {page} of {total}
           </footer>
         )}
       >
         <Typography bold fontSize={16}>
-          Reporte de Ventas
+          Sales Report
         </Typography>
-        <p>Contenido del reporte...</p>
+        <p>Report content...</p>
       </PageRender>
     </div>
   );
 };
 
-export default ReporteVentas;
+export default SalesReport;
 ```
 
 ---
 
-## ⚙️ API y Configuración
+## ⚙️ API and Configuration
 
-### 🔷 Componente Principal: `<PageRender />`
+### 🔷 Main Component: `<PageRender />`
 
-`<PageRender />` es el componente encargado de renderizar el contenido del PDF. Es altamente configurable para adaptarse a distintos requerimientos de diseño.
+`<PageRender />` is responsible for rendering the PDF content. It is highly configurable to meet various design requirements.
 
-#### Props de `<PageRender />`
+#### `<PageRender />` Props
 
-| Prop                  | Tipo                                                                | Descripción                                                                                                                        |
-| --------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `children`            | `React.ReactNode`                                                   | Contenido del reporte.                                                                                                             |
-| `paperOptions`        | `PaperOptions`                                                      | Configuración del documento, incluyendo tamaño, márgenes, orientación y espaciado de párrafos.                                     |
-| `cover`               | `() => JSX.Element` (opcional)                                      | Función que retorna la carátula del reporte.                                                                                       |
-| `header`              | `(pageIndex: number, totalPages: number) => JSX.Element` (opcional) | Función para renderizar el encabezado en cada página.                                                                              |
-| `footer`              | `(pageIndex: number, totalPages: number) => JSX.Element` (opcional) | Función para renderizar el pie de página en cada página, pudiendo incluir información como el número de página y total de páginas. |
-| `contentRef`          | `React.RefObject<HTMLDivElement>`                                   | Referencia al contenedor principal del contenido.                                                                                  |
-| `renderContent`       | `boolean`                                                           | Indica si se debe renderizar el contenido del reporte.                                                                             |
-| `handleLoading`       | `(state: boolean) => void`                                          | Función para actualizar el estado de carga durante la generación del PDF.                                                          |
-| `handleRenderContent` | `(state: boolean) => void`                                          | Función para controlar la renderización del contenido.                                                                             |
+| Prop                  | Type                                                                | Description                                                                                 |
+| --------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `children`            | `React.ReactNode`                                                   | Report content.                                                                             |
+| `paperOptions`        | `PaperOptions`                                                      | Document configuration, including size, margins, orientation, and paragraph spacing.        |
+| `cover`               | `() => JSX.Element` (optional)                                      | Function that returns the report cover page.                                                |
+| `header`              | `(pageIndex: number, totalPages: number) => JSX.Element` (optional) | Function to render the header on each page.                                                 |
+| `footer`              | `(pageIndex: number, totalPages: number) => JSX.Element` (optional) | Function to render the footer on each page, which can include page numbers and total pages. |
+| `contentRef`          | `React.RefObject<HTMLDivElement>`                                   | Reference to the main content container.                                                    |
+| `renderContent`       | `boolean`                                                           | Indicates whether the report content should be rendered.                                    |
+| `handleLoading`       | `(state: boolean) => void`                                          | Function to update the loading state during PDF generation.                                 |
+| `handleRenderContent` | `(state: boolean) => void`                                          | Function to control content rendering.                                                      |
 
 ---
 
-### Configuración de Papel (`PaperOptions`)
+### Paper Configuration (`PaperOptions`)
 
-La interfaz `PaperOptions` te permite definir detalles importantes del documento:
+The `PaperOptions` interface allows you to define key document details:
 
-- **`paperSize`**: Define el tamaño del papel. Puede ser uno de los siguientes strings: `"a4"`, `"letter"`, `"legal"`, o un objeto con las propiedades `width` y `height`.
-- **`margin`**: Define los márgenes del documento. Puedes usar strings predefinidos: `"normal"`, `"narrow"`, o `"wide"`, o un objeto con `top`, `bottom`, `left` y `right`.
-- **`orientation`**: Establece la orientación del documento: `"portrait"` o `"landscape"`.
-- **`paragraphSpacing`**: Espaciado entre párrafos (valor numérico).
+- **`paperSize`**: Defines the paper size. It can be one of the following strings: `"a4"`, `"letter"`, `"legal"`, or an object with `width` and `height` properties.
+- **`margin`**: Defines document margins. You can use predefined strings: `"normal"`, `"narrow"`, or `"wide"`, or an object with `top`, `bottom`, `left`, and `right` values.
+- **`orientation`**: Sets the document orientation: `"portrait"` or `"landscape"`.
+- **`paragraphSpacing`**: Paragraph spacing (numeric value).
 
-#### Valores Predefinidos
+#### Predefined Values
 
 ```tsx
 export const PAPER_SIZES = {
@@ -135,51 +135,51 @@ export const DEFAULT_MARGINS = {
 
 ### 🔷 Hook: `useSmartPrint`
 
-El hook `useSmartPrint` gestiona el ciclo de vida de la generación del PDF y te provee de toda la configuración necesaria para utilizar `<PageRender />`.
+The `useSmartPrint` hook manages the PDF generation lifecycle and provides all the necessary configuration for `<PageRender />`.
 
-#### Ejemplo de uso del hook:
+#### Example usage:
 
 ```tsx
 const {
-  config, // Objeto con { contentRef, renderContent, handleLoading, handleRenderContent }
-  isLoading, // Estado de carga
-  isRendered, // Indica si el PDF ya fue generado
-  isError, // Indica si ocurrió un error durante la generación
-  render, // Función para iniciar la generación del PDF
-  unmount, // Función para desmontar el PDF
-  print, // Función para enviar el PDF a impresión
-} = useSmartPrint("identificador");
+  config, // Object with { contentRef, renderContent, handleLoading, handleRenderContent }
+  isLoading, // Loading state
+  isRendered, // Indicates whether the PDF has been generated
+  isError, // Indicates if an error occurred during generation
+  render, // Function to start PDF generation
+  unmount, // Function to unmount the PDF
+  print, // Function to send the PDF to print
+} = useSmartPrint("identifier");
 ```
 
-El objeto `config` es esencial para que `<PageRender />` funcione correctamente, ya que contiene:
+The `config` object is essential for `<PageRender />` to function correctly, as it contains:
 
-- `contentRef`: Referencia al contenedor del contenido.
-- `renderContent`: Estado booleano para determinar si se renderiza el contenido.
-- `handleLoading`: Función para actualizar el estado de carga.
-- `handleRenderContent`: Función para controlar cuándo renderizar el contenido.
+- `contentRef`: Reference to the content container.
+- `renderContent`: Boolean state to determine whether the content should be rendered.
+- `handleLoading`: Function to update the loading state.
+- `handleRenderContent`: Function to control when to render the content.
 
 ---
 
-### 🔷 Componentes Adicionales
+### 🔷 Additional Components
 
-Además del componente principal, la librería incluye otros componentes que facilitan la construcción y el estilizado del reporte:
+In addition to the main component, the library includes other components that simplify the construction and styling of the report:
 
-- **`Typography`**: Para renderizar textos con estilos predefinidos (tamaño, peso, etc.).
-- **`Paragraph`**: Para definir párrafos de texto con formato.
-- **`Table`**: Para la creación de tablas.
-- **`List`** y **`ListItem`**: Para listas ordenadas o desordenadas.
-- **`PageBreak`**: Inserta un salto de página en el documento.
-- **`BlankPage`**: Permite agregar páginas en blanco.
-- **`Divider`**: Inserta una línea divisoria para separar secciones del reporte.
+- **`Typography`**: Renders text with predefined styles (size, weight, etc.).
+- **`Paragraph`**: Defines formatted text paragraphs.
+- **`Table`**: Enables table creation.
+- **`List`** and **`ListItem`**: For ordered or unordered lists.
+- **`PageBreak`**: Inserts a page break in the document.
+- **`BlankPage`**: Adds blank pages.
+- **`Divider`**: Inserts a dividing line to separate report sections.
 
-Estos componentes están diseñados para trabajar de forma integrada y ayudarte a construir reportes modulares y fácilmente personalizables.
+These components are designed to work seamlessly together, helping you build modular and easily customizable reports.
 
 ---
 
 <!--
-## 🔥 Ejemplo Avanzado
+## 🔥 Advanced Example
 
-Este ejemplo demuestra cómo combinar varios componentes y opciones para crear un reporte completo y personalizado:
+This example demonstrates how to combine various components and options to create a complete, customized report:
 
 ```tsx
 
@@ -188,56 +188,56 @@ Este ejemplo demuestra cómo combinar varios componentes y opciones para crear u
 ---
 -->
 
-## 🤝 Contribuir
+## 🤝 Contributing
 
-¡Las contribuciones son bienvenidas! Para colaborar con el proyecto, sigue estos pasos:
+Contributions are welcome! To collaborate on the project, follow these steps:
 
-1. **Fork del Repositorio:**  
-   Realiza un fork del repositorio en GitHub.
+1. **Fork the Repository:**  
+   Fork the repository on GitHub.
 
-2. **Crear una Rama Nueva:**
-
-   ```sh
-   git checkout -b feature/nueva-funcionalidad
-   ```
-
-3. **Realiza los Cambios y Haz Commit:**
+2. **Create a New Branch:**
 
    ```sh
-   git commit -m "Añadir nueva funcionalidad"
+   git checkout -b feature/new-feature
    ```
 
-4. **Sube los Cambios a tu Fork:**
+3. **Make Changes and Commit:**
 
    ```sh
-   git push origin feature/nueva-funcionalidad
+   git commit -m "Add new feature"
    ```
 
-5. **Crea un Pull Request:**  
-   Abre un Pull Request para que tus cambios sean revisados e integrados.
+4. **Push Changes to Your Fork:**
+
+   ```sh
+   git push origin feature/new-feature
+   ```
+
+5. **Create a Pull Request:**  
+   Open a Pull Request for your changes to be reviewed and merged.
 
 ---
 
 ## 🛣️ Roadmap
 
-- **Mayor Personalización:** Incluir más opciones para configurar el estilo de los componentes.
-- **Nuevos Componentes:** Agregar componentes adicionales para mejorar la construcción del reporte.
-- **Optimización de Rendimiento:** Mejorar la eficiencia en la generación y renderizado de PDFs.
-- **Documentación Ampliada:** Incorporar más ejemplos y guías prácticas.
+- **More Customization:** Include additional styling options for components.
+- **New Components:** Add extra components to enhance report building.
+- **Performance Optimization:** Improve PDF generation and rendering efficiency.
+- **Extended Documentation:** Incorporate more examples and practical guides.
 
 ---
 
-## 📝 Créditos
+## 📝 Credits
 
-Este proyecto utiliza las siguientes librerías de terceros:
+This project uses the following third-party libraries:
 
-- [React](https://reactjs.org/) (Licencia MIT)
-- [Lodash](https://lodash.com/) (Licencia MIT)
-- [react-to-print](https://github.com/gregnb/react-to-print) (Licencia MIT)
-- [html-react-parser](https://github.com/remarkablemark/html-react-parser) (Licencia MIT)
+- [React](https://reactjs.org/) (MIT License)
+- [Lodash](https://lodash.com/) (MIT License)
+- [react-to-print](https://github.com/gregnb/react-to-print) (MIT License)
+- [html-react-parser](https://github.com/remarkablemark/html-react-parser) (MIT License)
 
 ---
 
-## 📜 Licencia
+## 📜 License
 
-Este proyecto está bajo la [Licencia MIT](LICENSE). Consulta el archivo para más detalles.
+This project is licensed under the [MIT License](LICENSE). See the file for more details.
