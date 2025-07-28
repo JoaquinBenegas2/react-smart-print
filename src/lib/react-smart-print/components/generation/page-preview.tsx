@@ -81,7 +81,6 @@ export const PagePreview: React.FC<PagePreviewProps> = ({
                   height: contentHeight,
                   paddingLeft: marginLeft,
                   paddingRight: marginRight,
-                  borderTop: "1px solid transparent",
                 }}
               >
                 {page.map((item, index) => (
