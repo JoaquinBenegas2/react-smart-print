@@ -63,7 +63,7 @@ export default function PageRenderContent({
         setPages(newPages);
       }
     }
-  }, [pageContentHeight, paragraphSpacing, pages, hasHiddenMounted]);
+  }, [pageContentHeight, paragraphSpacing, pages, hasHiddenMounted, children]);
 
   // Effect to mark that the hidden content has already mounted
   useEffect(() => {

@@ -1,10 +1,12 @@
 {
   "name": "react-smart-print",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist"
+    "dist/",
+    "README.md",
+    "LICENSE"
   ],
   "main": "./dist/react-smart-print.umd.cjs",
   "module": "./dist/react-smart-print.js",
