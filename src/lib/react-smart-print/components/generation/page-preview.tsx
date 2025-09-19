@@ -57,11 +57,10 @@ export const PagePreview: React.FC<PagePreviewProps> = ({
 
       {/* Pages */}
       {pages.map((page, pageIndex) => (
-        <>
+        <Fragment key={pageIndex}>
           {page.length > 0 && (
             <div
               id={"rsp-page-" + `${cover ? pageIndex + 1 : pageIndex}`}
-              key={pageIndex}
               style={{
                 height: pageHeight,
                 width: pageWidth,
@@ -94,7 +93,7 @@ export const PagePreview: React.FC<PagePreviewProps> = ({
               </div>
             </div>
           )}
-        </>
+        </Fragment>
       ))}
     </>
   );
