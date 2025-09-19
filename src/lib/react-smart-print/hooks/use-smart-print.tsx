@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 export interface SmartPrintHook {
@@ -14,6 +14,7 @@ export interface SmartPrintHook {
   render: () => Promise<void>;
   unmount: () => void;
   print: () => void;
+  renderAndPrint: () => Promise<void>;
 }
 
 export function useSmartPrint(fileName: string): SmartPrintHook {
@@ -24,6 +25,7 @@ export function useSmartPrint(fileName: string): SmartPrintHook {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isRendered, setIsRendered] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [shouldPrintAfterRender, setShouldPrintAfterRender] = useState<boolean>(false);
 
   const reactToPrintFn = useReactToPrint({
     contentRef: contentRef,
@@ -37,10 +39,10 @@ export function useSmartPrint(fileName: string): SmartPrintHook {
         setIsLoading(true);
         setRenderContent(true);
       } else {
-        console.warn("El contenido ya fue renderizado.");
+        console.warn("Content has already been rendered.");
       }
     } catch (error) {
-      console.error("Error en render:", error);
+      console.error("Error in render:", error);
       setIsError(true);
     }
   }, [renderContent]);
@@ -49,16 +51,28 @@ export function useSmartPrint(fileName: string): SmartPrintHook {
     setIsRendered(false);
     setRenderContent(false);
     setIsError(false);
+    setShouldPrintAfterRender(false);
   }, []);
 
   const print = useCallback(() => {
     if (!isRendered) {
-      console.warn("El contenido aún no se ha renderizado para imprimir.");
+      console.warn("The content has not been rendered for printing.");
       return;
     }
 
     reactToPrintFn?.();
   }, [isRendered, reactToPrintFn]);
+
+  const renderAndPrint = useCallback(async () => {
+    try {
+      await render();
+
+      setShouldPrintAfterRender(true);
+    } catch (error) {
+      console.error("Error in renderAndPrint:", error);
+      setIsError(true);
+    }
+  }, [render]);
 
   const handleLoading = useCallback(
     (state: boolean) => {
@@ -74,6 +88,15 @@ export function useSmartPrint(fileName: string): SmartPrintHook {
     [setIsRendered]
   );
 
+  // Effect to handle printing after render is complete
+  useEffect(() => {
+    if (shouldPrintAfterRender && isRendered) {
+      setShouldPrintAfterRender(false);
+      reactToPrintFn?.();
+      unmount();
+    }
+  }, [isRendered, shouldPrintAfterRender, reactToPrintFn, unmount]);
+
   return {
     config: {
       contentRef,
@@ -87,5 +110,6 @@ export function useSmartPrint(fileName: string): SmartPrintHook {
     render,
     unmount,
     print,
+    renderAndPrint,
   };
 }
