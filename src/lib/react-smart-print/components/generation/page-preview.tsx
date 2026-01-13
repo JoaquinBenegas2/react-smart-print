@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 interface PagePreviewProps {
   pages: PageElement[][];
-  handleRenderFinish: () => void;
+  handleRenderFinish?: () => void;
   pageHeight: number;
   pageWidth: number;
   marginTop: number;
@@ -34,7 +34,7 @@ export const PagePreview: React.FC<PagePreviewProps> = ({
 
   useEffect(() => {
     if (pages.length > 0) {
-      handleRenderFinish();
+      handleRenderFinish?.();
     }
   }, [pages, handleRenderFinish]);
 

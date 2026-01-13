@@ -9,6 +9,8 @@ lerna-debug.log*
 
 example/
 
+RELEASE.md
+
 node_modules
 dist
 dist-ssr

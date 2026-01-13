@@ -1,19 +1,19 @@
 import { PagePreview } from "@/components/generation/page-preview";
-import { PageElement } from "@/models/page-content/page";
+import { usePagination } from "@/hooks/use-pagination";
 import { usePageStore } from "@/store/page-store";
-import { paginateContent } from "@/utils/paginate-content";
-import { isEqual } from "lodash";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
 export interface PageRenderContentProps {
   children: React.ReactNode;
   cover?: () => JSX.Element;
   header?: (pageIndex: number, totalPages: number) => JSX.Element;
   footer?: (pageIndex: number, totalPages: number) => JSX.Element;
-  handleLoading: (state: boolean) => void;
-  handleRenderContent: (state: boolean) => void;
+
   contentRef: React.RefObject<HTMLDivElement>;
   renderContent?: boolean;
+
+  handleLoading: (state: boolean) => void;
+  handleRenderContent: (state: boolean) => void;
 }
 
 export default function PageRenderContent({
@@ -26,13 +26,9 @@ export default function PageRenderContent({
   handleLoading,
   handleRenderContent,
 }: PageRenderContentProps) {
-  /* Pages State */
-  const [pages, setPages] = useState<PageElement[][]>([]);
+  const hiddenContentRef = useRef<HTMLDivElement>(null);
 
-  /* Has Hidden Mounted */
-  const [hasHiddenMounted, setHasHiddenMounted] = useState(false);
-
-  /* Page Dimensions */
+  // Page dimensions from store
   const pageWidth = usePageStore((state) => state.pageWidth);
   const pageHeight = usePageStore((state) => state.pageHeight);
   const marginTop = usePageStore((state) => state.marginTop);
@@ -40,52 +36,22 @@ export default function PageRenderContent({
   const marginLeft = usePageStore((state) => state.marginLeft);
   const marginRight = usePageStore((state) => state.marginRight);
 
-  /* Paragraph Spacing */
-  const paragraphSpacing = usePageStore((state) => state.paragraphSpacing);
-
-  /* Page Size */
   const pageContentWidth = pageWidth - marginLeft - marginRight;
-  const pageContentHeight = pageHeight - marginTop - marginBottom;
 
-  /* Content Ref */
-  const hiddenContentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (hiddenContentRef.current) {
-      // Get the list of children elements of the hidden content container.
-      const elements = Array.from(hiddenContentRef.current.children) as HTMLElement[];
-
-      // Paginate the content
-      const newPages = paginateContent(elements, pageContentHeight, paragraphSpacing);
-
-      // If the pages have changed, update the state
-      if (!isEqual(newPages, pages)) {
-        setPages(newPages);
-      }
-    }
-  }, [pageContentHeight, paragraphSpacing, pages, hasHiddenMounted, children]);
-
-  // Effect to mark that the hidden content has already mounted
-  useEffect(() => {
-    if (renderContent && hiddenContentRef.current) {
-      setHasHiddenMounted(true);
-    } else {
-      setHasHiddenMounted(false);
-    }
-  }, [renderContent]);
-
-  const handleRenderFinish = useCallback(() => {
-    handleLoading(false);
-    handleRenderContent(true);
-  }, [handleLoading, handleRenderContent]);
+  // Use pagination hook
+  const { pages, hasMounted } = usePagination({
+    containerRef: hiddenContentRef,
+    enabled: renderContent ?? false,
+    onLoadingChange: handleLoading,
+    onRenderContentChange: handleRenderContent,
+  });
 
   return (
     <>
-      {/* Invisible container to render the content */}
+      {/* Hidden container for content measurement */}
       {renderContent && (
         <div
           id="rsp-hidden-content"
-          className=""
           ref={hiddenContentRef}
           style={{
             visibility: "hidden",
@@ -101,12 +67,11 @@ export default function PageRenderContent({
         </div>
       )}
 
-      {/* Render the paginated preview and print */}
-      {renderContent && hasHiddenMounted && (
+      {/* Rendered paginated preview */}
+      {renderContent && hasMounted && (
         <div id="rsp-page-preview" className="rsp-print-content" ref={printContentRef}>
           <PagePreview
             pages={pages}
-            handleRenderFinish={handleRenderFinish}
             pageHeight={pageHeight}
             pageWidth={pageWidth}
             marginTop={marginTop}
