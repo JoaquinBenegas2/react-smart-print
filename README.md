@@ -18,18 +18,22 @@
 ## ✨ Features
 
 ### Core Functionality
+
 - ⚛️ **React Integration:** Build PDFs using familiar React components and JSX
 - 🖌️ **Full Customization:** Configure paper sizes, margins, orientation, and spacing
 - 📝 **Advanced Layout:** Custom headers, footers, cover pages, and page breaks
 - 🚀 **One-Click Operations:** Generate, print, or do both with single method calls
 
 ### Components & Tools
-- 🛠️ **Rich Component Library:** `Typography`, `Paragraph`, `Table`, `List`, `PageBreak`, `BlankPage`, `Divider`
+
+- 🛠️ **Rich Component Library:** `Typography`, `Paragraph`, `Table`, `List`, `PageBreak`, `BlankPage`, `Divider`, `Image`
 - 📊 **Table Support:** Full-featured tables with headers, bodies, and custom styling
 - 📋 **List Components:** Ordered and unordered lists with custom formatting
 - 🎨 **Typography System:** Flexible text styling with size, weight, and alignment options
+- 🖼️ **Image Component:** Advanced image rendering with fit options, alignment, and background support
 
 ### Developer Experience
+
 - 🔧 **TypeScript Support:** Full type definitions and IntelliSense
 - 🎯 **Simple API:** Intuitive hooks and components with minimal configuration
 - 📱 **Responsive Design:** Automatic scaling and responsive layouts
@@ -67,22 +71,11 @@ Here's a simple example to get you started:
 
 ```tsx
 import React from "react";
-import { 
-  PageRender, 
-  Typography, 
-  Paragraph, 
-  useSmartPrint 
-} from "react-smart-print";
+import { PageRender, Typography, Paragraph, useSmartPrint } from "react-smart-print";
 
 const SalesReport = () => {
-  const { 
-    config, 
-    render, 
-    print, 
-    renderAndPrint, 
-    unmount, 
-    isLoading 
-  } = useSmartPrint("sales-report");
+  const { config, render, print, renderAndPrint, unmount, isLoading } =
+    useSmartPrint("sales-report");
 
   return (
     <div>
@@ -97,9 +90,7 @@ const SalesReport = () => {
         <button onClick={renderAndPrint} disabled={isLoading}>
           Generate & Print
         </button>
-        <button onClick={unmount}>
-          Close PDF
-        </button>
+        <button onClick={unmount}>Close PDF</button>
       </div>
 
       {isLoading && <p>Generating PDF...</p>}
@@ -114,7 +105,9 @@ const SalesReport = () => {
         }}
         header={(page, total) => (
           <div style={{ textAlign: "center", padding: "10px" }}>
-            <Typography fontSize={12}>Sales Report - Page {page} of {total}</Typography>
+            <Typography fontSize={12}>
+              Sales Report - Page {page} of {total}
+            </Typography>
           </div>
         )}
         footer={(page, total) => (
@@ -126,21 +119,17 @@ const SalesReport = () => {
         <Typography bold fontSize={18} align="center">
           Monthly Sales Report
         </Typography>
-        
+
         <Paragraph align="justify">
-          This report contains the sales data for the current month, 
-          including revenue analysis and performance metrics.
+          This report contains the sales data for the current month, including revenue analysis and
+          performance metrics.
         </Paragraph>
-        
+
         <Typography bold fontSize={14}>
           Key Metrics
         </Typography>
-        
-        <Paragraph>
-          • Total Revenue: $125,000
-          • Units Sold: 1,250
-          • Growth Rate: 15%
-        </Paragraph>
+
+        <Paragraph>• Total Revenue: $125,000 • Units Sold: 1,250 • Growth Rate: 15%</Paragraph>
       </PageRender>
     </div>
   );
@@ -168,17 +157,17 @@ The main component responsible for rendering PDF content. Highly configurable to
 
 **Props:**
 
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `children` | `React.ReactNode` | ✅ | The report content to be rendered |
-| `paperOptions` | `PaperOptions` | ✅ | Document configuration (size, margins, spacing) |
-| `cover` | `() => JSX.Element` | ❌ | Function that returns the cover page |
-| `header` | `(page: number, total: number) => JSX.Element` | ❌ | Function to render page headers |
-| `footer` | `(page: number, total: number) => JSX.Element` | ❌ | Function to render page footers |
-| `contentRef` | `React.RefObject<HTMLDivElement>` | ✅ | Reference to content container (from `useSmartPrint`) |
-| `renderContent` | `boolean` | ✅ | Controls content rendering (from `useSmartPrint`) |
-| `handleLoading` | `(state: boolean) => void` | ✅ | Loading state handler (from `useSmartPrint`) |
-| `handleRenderContent` | `(state: boolean) => void` | ✅ | Render state handler (from `useSmartPrint`) |
+| Prop                  | Type                                           | Required | Description                                           |
+| --------------------- | ---------------------------------------------- | -------- | ----------------------------------------------------- |
+| `children`            | `React.ReactNode`                              | ✅       | The report content to be rendered                     |
+| `paperOptions`        | `PaperOptions`                                 | ✅       | Document configuration (size, margins, spacing)       |
+| `cover`               | `() => JSX.Element`                            | ❌       | Function that returns the cover page                  |
+| `header`              | `(page: number, total: number) => JSX.Element` | ❌       | Function to render page headers                       |
+| `footer`              | `(page: number, total: number) => JSX.Element` | ❌       | Function to render page footers                       |
+| `contentRef`          | `React.RefObject<HTMLDivElement>`              | ✅       | Reference to content container (from `useSmartPrint`) |
+| `renderContent`       | `boolean`                                      | ✅       | Controls content rendering (from `useSmartPrint`)     |
+| `handleLoading`       | `(state: boolean) => void`                     | ✅       | Loading state handler (from `useSmartPrint`)          |
+| `handleRenderContent` | `(state: boolean) => void`                     | ✅       | Render state handler (from `useSmartPrint`)           |
 
 **Example:**
 
@@ -229,21 +218,21 @@ interface PaperMarginObject {
 
 **Properties:**
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `paperSize` | `string \| PaperSizeObject` | `"a4"` | Paper size (predefined or custom) |
-| `margin` | `string \| PaperMarginObject` | `"normal"` | Document margins |
-| `orientation` | `"portrait" \| "landscape"` | `"portrait"` | Page orientation |
-| `paragraphSpacing` | `number` | `12` | Spacing between paragraphs (px) |
+| Property           | Type                          | Default      | Description                       |
+| ------------------ | ----------------------------- | ------------ | --------------------------------- |
+| `paperSize`        | `string \| PaperSizeObject`   | `"a4"`       | Paper size (predefined or custom) |
+| `margin`           | `string \| PaperMarginObject` | `"normal"`   | Document margins                  |
+| `orientation`      | `"portrait" \| "landscape"`   | `"portrait"` | Page orientation                  |
+| `paragraphSpacing` | `number`                      | `12`         | Spacing between paragraphs (px)   |
 
 **Predefined Values:**
 
 ```tsx
 // Paper Sizes
 const PAPER_SIZES = {
-  a4: { width: 1050, height: 1485 },      // A4 (210 × 297 mm)
-  letter: { width: 425, height: 550 },    // US Letter (8.5 × 11 in)
-  legal: { width: 425, height: 700 },     // US Legal (8.5 × 14 in)
+  a4: { width: 1050, height: 1485 }, // A4 (210 × 297 mm)
+  letter: { width: 425, height: 550 }, // US Letter (8.5 × 11 in)
+  legal: { width: 425, height: 700 }, // US Legal (8.5 × 14 in)
 };
 
 // Margins
@@ -287,16 +276,16 @@ const result = useSmartPrint(identifier: string);
 
 **Returns:**
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `config` | `object` | Configuration object for `<PageRender />` |
-| `isLoading` | `boolean` | Loading state during PDF operations |
-| `isRendered` | `boolean` | Whether PDF has been generated |
-| `isError` | `boolean` | Whether an error occurred |
-| `render` | `() => void` | Generate PDF function |
-| `print` | `() => void` | Print PDF function |
-| `renderAndPrint` | `() => void` | Generate and print in one operation |
-| `unmount` | `() => void` | Clean up PDF resources |
+| Property         | Type         | Description                               |
+| ---------------- | ------------ | ----------------------------------------- |
+| `config`         | `object`     | Configuration object for `<PageRender />` |
+| `isLoading`      | `boolean`    | Loading state during PDF operations       |
+| `isRendered`     | `boolean`    | Whether PDF has been generated            |
+| `isError`        | `boolean`    | Whether an error occurred                 |
+| `render`         | `() => void` | Generate PDF function                     |
+| `print`          | `() => void` | Print PDF function                        |
+| `renderAndPrint` | `() => void` | Generate and print in one operation       |
+| `unmount`        | `() => void` | Clean up PDF resources                    |
 
 **Example:**
 
@@ -349,10 +338,11 @@ const { renderAndPrint, isLoading } = useSmartPrint("my-report");
 
 <button onClick={renderAndPrint} disabled={isLoading}>
   {isLoading ? "Generating..." : "Generate & Print"}
-</button>
+</button>;
 ```
 
 **Benefits:**
+
 - **Streamlined workflow**: Single operation instead of two separate steps
 - **Better UX**: One-click solution for complete print workflow
 - **Automatic state management**: Handles loading states during the operation
@@ -369,7 +359,7 @@ Build your PDF content using these specialized components designed for document 
 Renders text with customizable styling options.
 
 ```tsx
-<Typography 
+<Typography
   fontSize={16}
   bold={true}
   italic={false}
@@ -384,6 +374,7 @@ Renders text with customizable styling options.
 ```
 
 **Props:**
+
 - `fontSize?: number` - Font size in pixels (default: 11)
 - `bold?: boolean` - Bold text (default: false)
 - `italic?: boolean` - Italic text (default: false)
@@ -398,18 +389,13 @@ Renders text with customizable styling options.
 Formatted text paragraphs with automatic line wrapping and spacing.
 
 ```tsx
-<Paragraph 
-  align="justify"
-  fontSize={12}
-  lineSpacing={1.5}
-  marginTop={8}
-  marginBottom={8}
->
+<Paragraph align="justify" fontSize={12} lineSpacing={1.5} marginTop={8} marginBottom={8}>
   Your paragraph content with automatic line wrapping and proper spacing.
 </Paragraph>
 ```
 
 **Props:**
+
 - `align?: "left" | "center" | "right" | "justify"` - Text alignment
 - `fontSize?: number` - Font size in pixels (default: 11)
 - `lineSpacing?: number` - Line spacing multiplier (default: 1)
@@ -438,6 +424,7 @@ Create structured data tables with headers and rows.
 ```
 
 **Components:**
+
 - `Table` - Main table container
 - `TableHead` - Table header section
 - `TableBody` - Table body section
@@ -480,6 +467,93 @@ Inserts a horizontal dividing line to separate sections.
 <Divider />
 ```
 
+#### `Image`
+
+Renders images with advanced styling options, automatic sizing, and support for background images.
+
+```tsx
+import { Image } from "react-smart-print";
+
+<Image
+  src="/path/to/image.jpg"
+  alt="Description"
+  width={400}
+  height={300}
+  fit="contain"
+  align="center"
+  borderRadius={8}
+  marginTop={10}
+  marginBottom={10}
+/>;
+```
+
+**Props:**
+
+| Prop           | Type                                                       | Default       | Description                                                    |
+| -------------- | ---------------------------------------------------------- | ------------- | -------------------------------------------------------------- |
+| `src`          | `string`                                                   | ✅ Required   | Image source URL                                               |
+| `alt`          | `string`                                                   | `""`          | Alternative text for the image                                 |
+| `width`        | `number \| string`                                         | `"100%"`      | Image width (px or CSS value)                                  |
+| `height`       | `number \| string`                                         | -             | Image height (px or CSS value)                                 |
+| `maxWidth`     | `number \| string`                                         | Auto          | Maximum width constraint                                       |
+| `maxHeight`    | `number \| string`                                         | -             | Maximum height constraint                                      |
+| `fit`          | `"contain" \| "cover" \| "fill" \| "none" \| "scale-down"` | `"contain"`   | How the image should fit its container                         |
+| `repeat`       | `"no-repeat" \| "repeat" \| "repeat-x" \| "repeat-y"`      | `"no-repeat"` | Background repeat (uses background-image when not "no-repeat") |
+| `align`        | `"left" \| "center" \| "right"`                            | `"left"`      | Horizontal alignment                                           |
+| `marginTop`    | `number`                                                   | `0`           | Top margin in pixels                                           |
+| `marginBottom` | `number`                                                   | `0`           | Bottom margin in pixels                                        |
+| `borderRadius` | `number`                                                   | `0`           | Border radius in pixels                                        |
+| `opacity`      | `number`                                                   | `1`           | Image opacity (0-1)                                            |
+| `style`        | `CSSProperties`                                            | -             | Additional inline styles                                       |
+| `className`    | `string`                                                   | -             | CSS class name                                                 |
+| `loading`      | `"eager" \| "lazy"`                                        | `"eager"`     | Image loading strategy                                         |
+| `crossOrigin`  | `"anonymous" \| "use-credentials"`                         | -             | CORS settings                                                  |
+| `onLoad`       | `() => void`                                               | -             | Callback when image loads                                      |
+| `onError`      | `() => void`                                               | -             | Callback when image fails to load                              |
+
+**Examples:**
+
+```tsx
+// Basic image
+<Image src="/logo.png" alt="Company Logo" />
+
+// Centered image with custom size
+<Image
+  src="/photo.jpg"
+  alt="Photo"
+  width={500}
+  height={300}
+  align="center"
+  borderRadius={12}
+/>
+
+// Background image with repeat
+<Image
+  src="/pattern.png"
+  width="100%"
+  height={200}
+  repeat="repeat"
+  fit="cover"
+/>
+
+// Image with margins and opacity
+<Image
+  src="/banner.jpg"
+  alt="Banner"
+  marginTop={20}
+  marginBottom={20}
+  opacity={0.9}
+  fit="cover"
+/>
+```
+
+**Features:**
+
+- **Automatic sizing**: Respects page margins and calculates max width automatically
+- **Flexible fit options**: Control how images scale within their container
+- **Background support**: Use `repeat` prop to render as CSS background image
+- **Responsive**: Automatically adjusts to page width and margins
+
 ### 🧪 Beta Components
 
 The following components are currently in **beta** and may have breaking changes in future versions:
@@ -491,22 +565,24 @@ A responsive container that visually scales fixed-size content to fit within a c
 ```tsx
 import { ScalableContainer } from "react-smart-print";
 
-<ScalableContainer 
+<ScalableContainer
   contentWidth={1050} // Original content width (e.g., A4 = 1050px)
-  scaleMode="width"   // "width" or "full"
+  scaleMode="width" // "width" or "full"
   style={{ maxWidth: "800px", border: "1px solid #ddd" }}
 >
   <YourDocumentContent />
-</ScalableContainer>
+</ScalableContainer>;
 ```
 
 **Props:**
+
 - `contentWidth: number` - Original width of the content in pixels
 - `scaleMode?: "width" | "full"` - Scaling behavior (default: "width")
 - `style?: React.CSSProperties` - Optional CSS styles for the container
 - `className?: string` - Optional CSS class name
 
 **Use Cases:**
+
 - Document previews in responsive layouts
 - Scaling PDF content for different screen sizes
 - Creating zoomable document viewers
@@ -518,23 +594,25 @@ Creates a live preview of rendered document content by cloning the original DOM.
 ```tsx
 import { DocumentPreview } from "react-smart-print";
 
-<DocumentPreview 
-  previewRef={contentRef}     // Reference to the original document
-  renderContent={isRendered}  // Whether to show the preview
-  style={{ 
-    border: "1px solid #ccc", 
+<DocumentPreview
+  previewRef={contentRef} // Reference to the original document
+  renderContent={isRendered} // Whether to show the preview
+  style={{
+    border: "1px solid #ccc",
     borderRadius: "8px",
-    padding: "16px" 
+    padding: "16px",
   }}
-/>
+/>;
 ```
 
 **Props:**
+
 - `previewRef: React.RefObject<HTMLDivElement>` - Reference to the original document element
 - `renderContent?: boolean` - Boolean to control preview visibility
 - `style?: React.CSSProperties` - Optional CSS styles for the preview container
 
 **Features:**
+
 - Real-time synchronization with original content
 - Automatic DOM cloning and updates
 - Performance optimized with MutationObserver
@@ -550,35 +628,37 @@ import { DocumentPreview } from "react-smart-print";
 
 ```tsx
 import React from "react";
-import { 
-  PageRender, 
-  Typography, 
-  Paragraph, 
-  Table, 
-  TableHead, 
-  TableBody, 
-  TableRow, 
+import {
+  PageRender,
+  Typography,
+  Paragraph,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
   TableCell,
   List,
   ListItem,
   Divider,
   PageBreak,
-  useSmartPrint 
+  useSmartPrint,
 } from "react-smart-print";
 
 const CompleteReport = () => {
   const { config, renderAndPrint, isLoading } = useSmartPrint("complete-report");
 
   const coverPage = () => (
-    <div style={{ 
-      height: "100%", 
-      display: "flex", 
-      flexDirection: "column", 
-      justifyContent: "center", 
-      alignItems: "center",
-      textAlign: "center",
-      padding: "50px"
-    }}>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        padding: "50px",
+      }}
+    >
       <Typography bold fontSize={32} color="#1a365d">
         Annual Report 2024
       </Typography>
@@ -593,14 +673,16 @@ const CompleteReport = () => {
   );
 
   const header = (page: number, total: number) => (
-    <div style={{ 
-      height: "100%",
-      display: "flex", 
-      justifyContent: "space-between", 
-      alignItems: "center",
-      padding: "10px 20px",
-      borderBottom: "1px solid #e2e8f0"
-    }}>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "10px 20px",
+        borderBottom: "1px solid #e2e8f0",
+      }}
+    >
       <Typography fontSize={12} color="#4a5568">
         Annual Report 2024
       </Typography>
@@ -611,14 +693,16 @@ const CompleteReport = () => {
   );
 
   const footer = (page: number, total: number) => (
-    <div style={{ 
-      height: "100%",
-      display: "flex", 
-      justifyContent: "center", 
-      alignItems: "center",
-      padding: "10px",
-      borderTop: "1px solid #e2e8f0"
-    }}>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "10px",
+        borderTop: "1px solid #e2e8f0",
+      }}
+    >
       <Typography fontSize={10} color="#718096">
         © 2024 Your Company. All rights reserved.
       </Typography>
@@ -645,11 +729,11 @@ const CompleteReport = () => {
         <Typography bold fontSize={20} align="center" marginBottom={20}>
           Executive Summary
         </Typography>
-        
+
         <Paragraph align="justify">
-          This comprehensive report provides an in-depth analysis of our company's 
-          performance throughout 2024, including financial metrics, operational 
-          achievements, and strategic initiatives.
+          This comprehensive report provides an in-depth analysis of our company's performance
+          throughout 2024, including financial metrics, operational achievements, and strategic
+          initiatives.
         </Paragraph>
 
         <Typography bold fontSize={16} marginTop={20} marginBottom={10}>
@@ -707,9 +791,9 @@ const CompleteReport = () => {
         </Typography>
 
         <Paragraph align="justify">
-          The year 2024 has been marked by significant growth and strategic 
-          achievements. Our focus on innovation and customer satisfaction has 
-          resulted in strong financial performance and market expansion.
+          The year 2024 has been marked by significant growth and strategic achievements. Our focus
+          on innovation and customer satisfaction has resulted in strong financial performance and
+          market expansion.
         </Paragraph>
       </PageRender>
     </div>
@@ -743,22 +827,26 @@ export default CompleteReport;
 // Pattern 1: Simple report
 const SimpleReport = () => {
   const { config, renderAndPrint, isLoading } = useSmartPrint("simple-report");
-  
+
   return (
     <PageRender {...config} paperOptions={{ paperSize: "a4" }}>
-      <Typography bold fontSize={18}>Title</Typography>
+      <Typography bold fontSize={18}>
+        Title
+      </Typography>
       <Paragraph>Content...</Paragraph>
     </PageRender>
   );
 };
+```
 
+```tsx
 // Pattern 2: Multi-page document with cover
 const MultiPageReport = () => {
   const { config, renderAndPrint, isLoading } = useSmartPrint("multi-page");
-  
+
   return (
-    <PageRender 
-      {...config} 
+    <PageRender
+      {...config}
       paperOptions={{ paperSize: "a4" }}
       cover={() => <CoverPage />}
       header={(page, total) => <Header page={page} total={total} />}
@@ -777,33 +865,39 @@ const MultiPageReport = () => {
 Contributions are welcome! To collaborate on the project, follow these steps:
 
 1. **Fork the Repository**
+
    ```bash
    git clone https://github.com/your-username/react-smart-print.git
    cd react-smart-print
    ```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Create a Feature Branch**
+
    ```bash
    git checkout -b feature/amazing-feature
    ```
 
 4. **Make Your Changes**
+
    - Follow the existing code style
    - Add tests for new features
    - Update documentation as needed
 
 5. **Test Your Changes**
+
    ```bash
    npm run test
    npm run build
    ```
 
 6. **Commit Your Changes**
+
    ```bash
    git commit -m "feat: add amazing feature"
    ```

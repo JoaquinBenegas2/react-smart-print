@@ -1,5 +1,6 @@
 export { Divider } from "./lib/react-smart-print/components/divider/divider";
 export { PageRender } from "./lib/react-smart-print/components/generation/page-render";
+export { Image } from "./lib/react-smart-print/components/image/image";
 export { List } from "./lib/react-smart-print/components/list/list";
 export { ListItem } from "./lib/react-smart-print/components/list/list-item";
 export { BlankPage } from "./lib/react-smart-print/components/page/blank-page";
